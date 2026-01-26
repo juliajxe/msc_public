@@ -80,14 +80,15 @@ def find_best_neighbour(matrix, solution):
     return best_neighbour, best_cost
 
 
-def hill_climbing():
+def hill_climbing(matrix):
     """Implement the simple hill climbing algorithm.
+
+    Args:
+        matrix (list): Edge cost matrix
 
     Returns:
         list: Array of all path costs found.
     """
-    matrix = load_matrix('matrix.txt')
-
     costs = []
 
     # Start with list of indices in random order.
@@ -114,10 +115,12 @@ def hill_climbing():
     return costs
 
 
+matrix = load_matrix('matrix.txt')
+
 pyplot.figure()
 
 for i in range(10):
-    path_costs = hill_climbing()
+    path_costs = hill_climbing(matrix)
 
     total_iterations = len(path_costs)
     final_cost = path_costs[-1]
