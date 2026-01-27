@@ -43,41 +43,24 @@ def path_cost(matrix, solution):
     return cost
 
 
-def find_best_neighbour(matrix, solution):
-    """Find the optimal neighbour.
+def find_random_neighbour(matrix, solution):
+    """Find any random neighbour.
 
     Args:
         matrix (list): Edge cost matrix
         solution (list): Node list
 
     Returns:
-        list: Closest neighbour with only two elements swapped.
+        list: Neighbour with two adjacent elements swapped.
     """
-    neighbours = []
+    i = random.randint(1, len(matrix)-2)
 
-    # Generate a collection of neighbouring paths,
-    # each with just two adjacent elements swopped.
-    for i in range(len(solution) - 1):
-        neighbour = solution.copy()
+    neighbour = solution.copy()
 
-        neighbour[i] = solution[i+1]
-        neighbour[i+1] = solution[i]
+    neighbour[i] = solution[i+1]
+    neighbour[i+1] = solution[i]
 
-        neighbours.append(neighbour)
-
-    # Iterate through all the neighbours to find the best one.
-    best_neighbour = neighbours[0]
-
-    best_cost = path_cost(matrix, best_neighbour)
-
-    for neighbour in neighbours:
-        current_cost = path_cost(matrix, neighbour)
-
-        if current_cost < best_cost:
-            best_cost = current_cost
-            best_neighbour = neighbour
-
-    return best_neighbour, best_cost
+    return neighbour, path_cost(matrix, neighbour)
 
 
 def hill_climbing(matrix):
@@ -97,16 +80,14 @@ def hill_climbing(matrix):
 
     num_same_cost = 0
 
+    cost = path_cost(matrix, path)
+
     while num_same_cost < 25:
-        cost = path_cost(matrix, path)
-
-        possible_path = find_best_neighbour(matrix, path)[0]
-
-        new_path, new_cost = find_best_neighbour(matrix, possible_path)
+        new_path, new_cost = find_random_neighbour(matrix, path)
 
         if new_cost < cost:
-            cost = new_cost
-            path = new_path
+            cost, path = new_cost, new_path
+            num_same_cost = 0
         else:
             num_same_cost += 1
 
