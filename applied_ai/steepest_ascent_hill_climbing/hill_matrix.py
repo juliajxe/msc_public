@@ -81,7 +81,7 @@ def find_best_neighbour(matrix, solution):
 
 
 def hill_climbing(matrix):
-    """Implement the simple hill climbing algorithm.
+    """Implement the steepest ascent hill climbing algorithm.
 
     Args:
         matrix (list): Edge cost matrix
